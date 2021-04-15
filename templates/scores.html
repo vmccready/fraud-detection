@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+
+<h1 class="w3-text-teal">Flagged Cases</h1>
+
+<table width='80%' border-collapse: collapse>
+    <th>Case</th>
+    <th>Factors</th>
+    <th>Model</th>
+    <th>Cost</th>
+    <th>Probability</th>
+  {% for case,item in scores.items() %}
+
+  <tr>
+    <td> {{case}} </td>
+    <td text-align='center'> {{item[0]}} </td>
+    <td> {{item[1]}} </td>
+    <td> {{item[2]}} </td>
+    <td> {{item[3]}} </td>
+    <td> {{item[4]}} </td>
+    <td> {{'Clear'}} </td>
+  </tr>
+  
+  {% endfor %}
+  </table>
+
+
+{% endblock %}
