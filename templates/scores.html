@@ -3,34 +3,58 @@
 
 
 {% block content %}
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    align-items: center;
+  }
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+  }
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  td[value = 'LOW']{
+    color: red;
+  }
 
 
+</style>
 <h1 class="w3-text-teal">Flagged Cases</h1>
-<table width='80%' border-collapse: collapse>
-    <th>Case #</th>
-    <th>Organization</th>
-    <th>Country</th>
-    <th>Event</th>
-    <th>Payee Name</th>
-    <th>Payment Type</th>
-    <th>Probability</th>
-  {% for item in scores %}
-
-  <tr>
-    <td> {{item[0]}} </td>
-    <td> {{item[1]}} </td>
-    <td> {{item[2]}} </td>
-    <td> {{item[3]}} </td>
-    <td> {{item[4]}} </td>
-    <td> {{item[5]}} </td>
-    <td> {{item[6]}} </td>
-  </tr>
 
   
+  <table width='80%' class='center'>
+      <th>Case #</th>
+      <th>Organization</th>
+      <th>Country</th>
+      <th>Event</th>
+      <th>Payee Name</th>
+      <th>Payment Type</th>
+      <th>Risk Level</th>
+      <th>Probability</th>
+    {% for item in scores %}
 
-  
-  {% endfor %}
-  </table>
+    <tr>
+      <td> {{item[0]}} </td>
+      <td> {{item[1]}} </td>
+      <td> {{item[2]}} </td>
+      <td> {{item[3]}} </td>
+      <td> {{item[4]}} </td>
+      <td> {{item[5]}} </td>
+      <td> {{item[7]}} </td>
+      <td> {{item[6]}} </td>
+    </tr>
+
+    
+
+    
+    {% endfor %}
+    </table>
 
 
 {% endblock %}

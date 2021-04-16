@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, session, redirect, jsonify, r
 import src.pipeline as pipeline
 from src.predict import predict
 import pandas as pd
+import numpy as np
 from src.model import create_model
 
 # print a nice greeting.
@@ -51,8 +52,11 @@ def display_scores():
     scores = predict(api_df, pipeline, model_path)
     head = scores.columns
     scores = scores[['object_id','org_name','country','name','payee_name','payout_type','probability']]
-    scores = scores.values
+    scores['risk'] = scores['probability'].apply(lambda p: 'HIGH' if p > .85 else 'MEDIUM' if p > .8 else 'LOW')
+    scores['probability'] = np.round(scores['probability'],2)
 
+
+    scores = scores.values
 
     return render_template('scores.html', scores=scores, head=head)
 
