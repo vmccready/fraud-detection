@@ -2,14 +2,14 @@ import numpy as np
 import pandas as pd 
 import pickle
 
-from pipeline import get_X, get_y
+# from pipeline import get_X, get_y
 
 from sklearn.ensemble import RandomForestClassifier
 
 # BEST MODEL
 # features - 'previous_payout', 'premium', 'no_payout_name', 
 # 'payout_toself', 'user_age'
-def get_model(data, model_path):
+def create_model(data, pipeline,  model_path='models/test_model.pickle'):
     '''
     Takes raw training data as dataframe, runs through pipeline, and trains a model. 
 
@@ -22,8 +22,8 @@ def get_model(data, model_path):
     '''
 
     # Create X and y from raw data
-    X = get_X(data)
-    y = get_y(data)
+    X = pipeline.get_X(data)
+    y = pipeline.get_y(data)
 
     # Create and train model
     model = RandomForestClassifier()

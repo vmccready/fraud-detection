@@ -4,16 +4,8 @@ import pickle
 
 from sklearn.linear_model import LogisticRegression
 
-# Path to saved trained model
-model_path = '../models/model.pickle'
 
-def get_X(df):
-    mask = df.previous_payouts.apply(lambda x: 0 if len(x) <= 0 else 1)
-    df['mask_previous_payout'] = mask
-    X = df[['mask_previous_payout', 'user_age']]
-    return X
-
-def predict(model_path, data):
+def predict(data, model_path):
     '''
     Takes a path to trained model and case to detect fraud. Returns probability
     of fraud. 
@@ -30,5 +22,6 @@ def predict(model_path, data):
     model = pickle.load(open(model_path, 'rb'))
     X = get_X(data)
     predictions = model.predict_proba
+    return predictions
     
 
