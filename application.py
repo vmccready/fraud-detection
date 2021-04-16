@@ -45,12 +45,16 @@ def display_scores():
     """    
     # can be k:v, list, nested, etc. jinja can do indexing
     # the below is an example/placeholder
+
     api_df =  pd.read_json('data/api_data.json') 
     model_path = 'models/rf_1.pickle'
     scores = predict(api_df, pipeline, model_path)
+    head = scores.columns
+    scores = scores[['object_id','org_name','country','name','payee_name','payout_type','probability']]
+    scores = scores.values
 
 
-    return render_template('scores.html', scores=scores)
+    return render_template('scores.html', scores=scores, head=head)
 
 
 # run the app.
