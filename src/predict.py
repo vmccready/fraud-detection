@@ -17,9 +17,11 @@ def predict(data, pipeline,  model_path='models/test_model.pickle'):
         probabilities(arr) - array of probabilities of outcomes. 
                 0 column is Not Fraud, 1 column is Fraud
     '''
+    return_data = data.copy()
     model = pickle.load(open(model_path, 'rb'))
     X = pipeline.get_X(data)
     predictions = model.predict_proba(X)
-    return predictions
+    return_data['probability'] = predictions[:,1]
+    return return_data
     
 
