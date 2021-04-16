@@ -41,8 +41,8 @@ def get_X(df):
     # have a delivery method of 0
     df_model['delivery_method'] = df['delivery_method'].fillna(0)
     # venue name 
-
-    X = df_model.drop('target', axis = 1)
+    X = df_model.copy()
+    # X = df_model.drop('target', axis = 1)
     X['user_age'] = df['user_age']
 
     return X
