@@ -2,10 +2,8 @@ import numpy as np
 import pandas as pd 
 import pickle
 
-from sklearn.linear_model import LogisticRegression
 
-
-def predict(data, model_path):
+def predict(data, pipeline,  model_path='models/test_model.pickle'):
     '''
     Takes a path to trained model and case to detect fraud. Returns probability
     of fraud. 
@@ -20,8 +18,8 @@ def predict(data, model_path):
                 0 column is Not Fraud, 1 column is Fraud
     '''
     model = pickle.load(open(model_path, 'rb'))
-    X = get_X(data)
-    predictions = model.predict_proba
+    X = pipeline.get_X(data)
+    predictions = model.predict_proba(X)
     return predictions
     
 
