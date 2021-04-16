@@ -1,5 +1,8 @@
-from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, url_for, session, redirect, jsonify, render_template_string, request
+import src.pipeline as pipeline
+from src.predict import predict
+import pandas as pd
+from src.model import create_model
 
 # print a nice greeting.
 def say_hello(username = "World"):
@@ -42,9 +45,11 @@ def display_scores():
     """    
     # can be k:v, list, nested, etc. jinja can do indexing
     # the below is an example/placeholder
-    scores = {'123456':['Missing Data, History of Fraud, Steals Candies', 'Linear Regression',    
-        '2695',
-        '99']}
+    api_df =  pd.read_json('data/api_data.json') 
+    model_path = 'models/rf_1.pickle'
+    scores = predict(api_df, pipeline, model_path)
+
+
     return render_template('scores.html', scores=scores)
 
 
