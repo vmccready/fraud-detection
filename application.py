@@ -5,21 +5,7 @@ import pandas as pd
 import numpy as np
 from src.model import create_model
 
-# print a nice greeting.
-def say_hello(username = "World"):
-    return '<p>Hello %s!</p>\n' % username
 
-# some bits of text for the page.
-header_text = '''
-    <html>\n<head> <title>EB Flask Test</title> </head>\n<body>'''
-instructions = '''
-    <p><em>Hint</em>: This is a RESTful web service! Append a username
-    to the URL (for example: <code>/Thelonious</code>) to say hello to
-    someone specific.</p>\n'''
-home_link = '<p><a href="/">Back</a></p>\n'
-footer_text = '</body>\n</html>'
-
-# EB looks for an 'application' callable by default.
 application = Flask(__name__)
 
 
@@ -37,28 +23,53 @@ def home():
 #                   <a href="/form_example">example form</a> </p> '''
 
 
-@application.route('/scores', methods=['POST','GET'])
-def display_scores():
-    """[Formats and renders]
+@application.route('/summary', methods=['GET'])
+def summary():
+    """[This is a good example of simply switching pages.
+        The '/summary' route being navigated to (above) activates
+        'display()' which calls/returns 'render_template()'.
+        This in turn retreives a specified html file, which in this case
+        has a line stating that it extends the 'base' html page.
+        It is this 'base' html page that is rendered with the contents
+        of 'summary.html' inserted.]
 
     Returns:
-        [HTML,iterable datastructure]: []
-    """    
-    # can be k:v, list, nested, etc. jinja can do indexing
-    # the below is an example/placeholder
+        [function]: [HTML(fictional summary for project narrative)]
+    """
+    return render_template('summary.html')
 
-    api_df =  pd.read_json('data/api_data.json') 
+
+
+@application.route('/scores', methods=['POST','GET'])
+def display_scores():
+    """[reads data, processes through models, predict.
+
+        
+        
+        ]
+
+    Returns:
+        [function]: [HTML(template built to display a dict as a table)]
+    """
+    # output can be k:v, list, nested, etc. jinja can do indexing and deal with nesting.
+
+    # Read in data
+    api_df =  pd.read_json('data/api_data.json')
+    # Set model location as variable
     model_path = 'models/rf_1.pickle'
+    # Store model.predict into 'scores'
     scores = predict(api_df, pipeline, model_path)
-    head = scores.columns
+    # Set columns names
     scores = scores[['object_id','org_name','country','name','payee_name','payout_type','probability']]
+    # Add a computed column ('risk'), with categorical values
     scores['risk'] = scores['probability'].apply(lambda p: 'HIGH' if p > .85 else 'MEDIUM' if p > .8 else 'LOW')
+    # Round values in 'probability' column
     scores['probability'] = np.round(scores['probability'],2)
 
 
     scores = scores.values
 
-    return render_template('scores.html', scores=scores, head=head)
+    return render_template('scores.html', scores=scores)
 
 
 # run the app.

@@ -1,3 +1,15 @@
+<!-- This is the website's basic template. When a specidic page is navigated
+  to its contents will 'extend' this file via a jinja block. This means that
+  the content of the other html file is inserted into this one in order to
+  inherit the formatting of the website as it's been coded here. So we only
+  have to do the bulk of our styling etc once and anything new can be built
+  in an independent html file. Kind of like how we import modules and helper
+  functions.
+  This file itself is almost all styling, with some functionality, and the
+  jinja block that receives the insertion. It's in <body>, around line: 78
+    {% block content %}{% endblock %}
+  The div around was just for providing some stability in the output display. -->
+
 <!DOCTYPE html>
 <html lang="en">
 
